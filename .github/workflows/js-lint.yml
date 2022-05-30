@@ -30,6 +30,8 @@ on:
          required:  true
       gh_repo_read_token:
          required:  true
+      monitoring_slack_token:
+        required: true
 
 jobs:
   changed_js_files_job:
@@ -86,4 +88,4 @@ jobs:
           status: ${{ job.status }}
           notify_when: 'failure'
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
+          SLACK_WEBHOOK_URL: ${{ secrets.monitoring_slack_token }}
