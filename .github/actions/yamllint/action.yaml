@@ -1,0 +1,23 @@
+name: Check Dockerfile Lint rules.
+description: "Check that Dockerfiles in the PR are respecting hadolint rules"
+
+inputs:
+  files:
+    description: "List of file paths to check"
+    required: true
+  config_file:
+    description: "Custom rule for yamllint"
+    requried: true
+     
+runs:
+  using: "composite"
+  steps:
+    - name: 'Yamllint'
+      shell: bash
+      run: |
+        sudo apt install yamllint -y
+        exit_code=0
+        for file in ${{ inputs.files }}; do
+          yamllint -c ${{ inputs.config_file }} $file || exit_code=1
+        done
+        exit $exit_code

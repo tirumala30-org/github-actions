@@ -1,0 +1,17 @@
+name: Check Dockerfile Lint rules.
+description: "Check that Dockerfiles in the PR are respecting hadolint rules"
+
+inputs:
+  files:
+    description: "List of file paths to check"
+    required: true
+
+
+runs:
+  using: "composite"
+  steps:
+    - name: run hadolint.
+      uses: hadolint/hadolint-action@v1.6.0
+      with:
+        dockerfile: ${{ inputs.files }}
+        

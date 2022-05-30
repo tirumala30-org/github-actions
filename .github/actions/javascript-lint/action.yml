@@ -1,0 +1,39 @@
+name: Check Javascript Vulnerabilities.
+description: "Check javascript vulnerabilities"
+
+inputs:
+  working_dir: 
+    description: "A working directory passed from the caller workflow"
+    required: true
+  node_version:
+    description: "The version of nodejs to use, defaults to `14`."
+    default: "14"
+    required: false
+  config_file:
+    required: false
+    default: ""
+    type: string
+    description: "Set config file to audit the js vulnerabilities"
+  config:
+    required: true
+    type: string
+    description: "Set config file to audit the js vulnerabilities"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Install Node.js ${{ inputs.node_version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ inputs.node_version }}
+
+    - name: Check Javascript Vulnerabilities for frontend and backend.
+      shell: bash
+      working-directory: ${{ inputs.working_dir }}
+      run: |
+          if [ -z ${{ inputs.config_file }} ]; then
+            npx audit-ci
+          else
+            npx audit-ci --config ${{ inputs.config_file }}
+          fi
+      
