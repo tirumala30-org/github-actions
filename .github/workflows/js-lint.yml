@@ -25,6 +25,10 @@ on:
          type: boolean
          default: false
          description: "Set config file to audit the js vulnerabilities"
+      notification_title:
+         required: true
+         type: string
+         description: "A notification_title passed from the caller workflow"
     secrets:
       gh_token:
          required:  true
@@ -87,6 +91,6 @@ jobs:
         with:
           status: ${{ job.status }}
           notify_when: 'failure'
-          mention_users_when: 'failure,warnings'
+          notification_title: ${{ inputs.notification_title }}
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.monitoring_slack_token }}
