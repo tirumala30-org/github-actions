@@ -84,3 +84,12 @@ jobs:
         with:
           working_dir: ${{ inputs.dir }}
           config_file: ${{ inputs.config_file }}
+      - name: Report Status
+        if: always()
+        uses: ravsamhq/notify-slack-action@v1
+        with:
+          status: ${{ job.status }}
+          notify_when: 'failure'
+          notification_title: ${{ inputs.notification_title }}
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.monitoring_slack_token }}
